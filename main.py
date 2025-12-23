@@ -4,14 +4,25 @@ pygame.init()
 class Game:
 
     def __init__(self):
-        self.player = Player()
+        self.all_players = pygame.sprite.Group()
+        self.player = Player(self)
+        self.all_players.add(self.player)
+        self.all_monsters = pygame.sprite.Group()
         self.pressed = {}
+        self.spawn_monster()
+    
+    def spawn_monster(self):
+        monster = Monster(self)
+        self.all_monsters.add(monster)
+
+    def check_collision(self, sprite, group):
+        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
 
 class Projectile(pygame.sprite.Sprite):
 
     def __init__(self, player):
         super().__init__()
-        self.velocity = 6
+        self.velocity = 15
         self.player = player
         self.image = pygame.image.load('assets/projectile.png')
         self.image = pygame.transform.scale (self.image, (80, 80))
@@ -28,18 +39,44 @@ class Projectile(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.x += self.velocity
-        self.rotate()
+        self.rotate() 
+
+        if self.player.game.check_collision(self, self.player.game.all_monsters):
+            self.player.all_projectiles.remove(self)
+
         if self.rect.x>1080:
             self.player.all_projectiles.remove(self)
 
+class Monster(pygame.sprite.Sprite):
+
+    def __init__(self, game):
+        super().__init__()
+        self.game = game
+        self.health = 100
+        self.max_health = 100
+        self.attack = 5
+        self.image = pygame.image.load('assets/syrup.png')
+        self.image = pygame.transform.scale(self.image, (270, 310))
+        self.rect = self.image.get_rect()
+        self.rect.x = 1000
+        self.rect.y = 330
+        self.velocity = 2
+
+    def forward(self):
+        if not self.game.check_collision(self, self.game.all_players):
+            self.rect.x -= self.velocity
+
+        
+
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        self.game = game
         self.health = 100
         self.max_health = 100
         self.attack = 10
-        self.velocity = 4
+        self.velocity = 7
         self.all_projectiles = pygame.sprite.Group()
         self.image = pygame.image.load('assets/player.png')
         self.image = pygame.transform.scale(self.image, (210, 210))
@@ -52,7 +89,9 @@ class Player(pygame.sprite.Sprite):
 
 
     def move_right(self):
-        self.rect.x += self.velocity
+        if not self.game.check_collision(self, self.game.all_monsters):
+            self.rect.x += self.velocity
+    
     def move_left(self):
         self.rect.x -= self.velocity
     
@@ -63,7 +102,7 @@ screen = pygame.display.set_mode((1080, 720))
 
 #import visuals
 background = pygame.image.load('assets/bg.jpg')
-player = Player()
+player = Player(Game)
 game = Game()
 
 running = True
@@ -75,8 +114,13 @@ while running:
 
     for projectile in game.player.all_projectiles:
         projectile.move()
+
+    for monster in game.all_monsters:
+        monster.forward()
     
     game.player.all_projectiles.draw(screen)
+
+    game.all_monsters.draw(screen)
     
     if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width():
         game.player.move_right()
