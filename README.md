@@ -1,2 +1,2 @@
 # random ahh game
-uuuh well just clone the assets and launch the main.exe I guess ?
+Download the assets.zip file and unzip it, you'll find a main.exe python file in it and you'll just need to execute it.
