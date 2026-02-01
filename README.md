@@ -2,7 +2,7 @@
 This is a simpe python game I made in order to learn pygame as a python beginner.
 You're a pancake whose only objective is to survive. However, waves of Mapple syrup and Régilait™ Caramel beurre salé with different characteristics will try to kill you.
 To counter them, you gained the ability to shoot an infinite amount of pancakes, but beware, as when the bar gets full, a medium size ice cream sorbet will fall on your current position.
-Moreover, you win points everytime you kill an enemy and when you dodge an ice cream, however you will loose point if it falls on you.
+Moreover, you win points everytime you kill an enemy and when you dodge an ice cream, however you will loose points if it falls on you.
 yeah that's it ig...
 
 Controls:
