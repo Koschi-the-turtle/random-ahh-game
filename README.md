@@ -6,11 +6,13 @@ Moreover, you win points everytime you kill an enemy and when you dodge an ice c
 yeah that's it ig...
 
 Controls:
+
 Right and Left Arrows to move
 Space Bar to shoot
 
 To play the game:
-Download the assets.zip file in the release and unzip it, you'll find a main.exe python file in it and you'll just need to execute it.
+
+Download the random_ahh_game.zip file in the release and unzip it, you'll find a main.exe python file in it and you'll just need to execute it.
 
 
 <img width="1346" height="886" alt="jytejg" src="https://github.com/user-attachments/assets/13d4a171-a31a-4e8e-bda9-010ff010599a" />
